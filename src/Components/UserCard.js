@@ -3,25 +3,47 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { Edit } from "@mui/icons-material";
+import { Edit, Delete } from "@mui/icons-material";
 
 const UserCard = (props) => {
-    const {selectedUser,setOpen,setModalMode}=props;
-    const handleEdit=()=>{
-        setModalMode('edit')
-        setOpen(true)
+  const { selectedUser, setOpen, setModalMode, setUsersData, usersData } =
+    props;
+  const handleEdit = () => {
+    setModalMode("edit");
+    setOpen(true);
+  };
 
+  const deleteUser = () => {
+    let modifiedUsers = usersData;
+    let indexToDelete = modifiedUsers.findIndex(
+      (user) => user.id === selectedUser.id
+    );
+    let result = [];
+    for (let index = 0; index < modifiedUsers.length; index++) {
+      const element = modifiedUsers[index];
+      if (index === indexToDelete) {
+      } else {
+        result.push(element);
+      }
     }
+
+    setUsersData(result);
+  };
   return (
     <Card>
       <CardHeader
         avatar={<Avatar aria-label=""></Avatar>}
         action={<IconButton aria-label=""></IconButton>}
-        title={selectedUser.nombres+' '+selectedUser.apellidoPaterno+' '+selectedUser.apellidoMaterno} 
+        title={
+          selectedUser.nombres +
+          " " +
+          selectedUser.apellidoPaterno +
+          " " +
+          selectedUser.apellidoMaterno
+        }
         subheader={selectedUser.rol}
       />
       <Box sx={{ padding: "20px" }}>
@@ -31,12 +53,20 @@ const UserCard = (props) => {
               Información General
             </Typography>
           </Grid>
-          <Grid item xs={4} sx={{ display: "flex", alignItems: "flex-end",justifyContent:'center' }}>
-            <IconButton
-              aria-label="Editar"
-              onClick={() => handleEdit()}
-            >
-              <Edit />
+          <Grid
+            item
+            xs={4}
+            sx={{
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "center",
+            }}
+          >
+            <IconButton aria-label="Editar" onClick={() => handleEdit()}>
+              <Edit color="secondary" />
+            </IconButton>
+            <IconButton aria-label="Eliminar" onClick={() => deleteUser()}>
+              <Delete color="error" />
             </IconButton>
           </Grid>
         </Grid>
